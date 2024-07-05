@@ -74,7 +74,6 @@ fullFeather.push(shaft);
 //tying to add barbs to the feather now:
 bt.join(fullFeather, addBarbs())
 
-
 const rightBarbs = addBarbs();
 bt.scale(rightBarbs, [-1, 1], [0, 0]);
 bt.join(fullFeather, rightBarbs);
@@ -83,10 +82,10 @@ bt.join(fullFeather, rightBarbs);
 function addBarbs() {
   const barbs = [];
 
-  let maxBarbs = 60;
-  for (let i = 0; i < maxBarbs; i++) {
+  let maxBarbs = 90;
+  for (let i = 40; i < maxBarbs; i++) {
     const t = i / (maxBarbs - 1);
-    
+
     const y0 = t * shaftLength;
     const x0 = 0;
 
@@ -108,15 +107,43 @@ function addBarbs() {
         ]
       ])
     ];
-  
+
     if (r < 0.01) continue;
 
-    bt.join(barbs, line);    
+    bt.join(barbs, line);
   }
   return barbs;
 }
 
-
+//array of bunch of feathers
+const featherCount = bt.randInRange(8, 15);
+const feathers = [];
+for (let i = 0; i < featherCount; i++) {
+  const oneFeather = bt.copy(fullFeather);
+  bt.rotate(oneFeather, i * (180 / featherCount), [0, 0]);
+  bt.join(finalLines, oneFeather);
 }
 
+
+//to center the feathers onto the page:
+const finalLinesBounds = bt.bounds(finalLines);
+bt.translate(
+  finalLines,
+  [width / 2, height / 2],
+  [0, 0]
+);
+
+
+//to make the feather upright
+bt.rotate(finalLines, 270, [width / 2, height / 2]);
+
+
+//making the actual peacock now :)
+const peacock = new bt.Turtle()
+  .jump([(width / 2) - 20], height / 2)
+  .arc(-180, 40)
+
+
+//draw the polylines
 drawLines(finalLines);
+drawLines(peacock.lines())
