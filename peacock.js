@@ -63,6 +63,7 @@ bt.translate(fullFeather, [0, 25])
 
 
 //adding shaft of feather
+const shaftLength = 25
 const shaft = [
   [0, 0],
   [0, 25],
@@ -70,34 +71,52 @@ const shaft = [
 ];
 fullFeather.push(shaft);
 
+//tying to add barbs to the feather now:
+bt.join(fullFeather, addBarbs())
+
+
+const rightBarbs = addBarbs();
+bt.scale(rightBarbs, [-1, 1], [0, 0]);
+bt.join(fullFeather, rightBarbs);
+
+
 function addBarbs() {
   const barbs = [];
 
+  let maxBarbs = 60;
+  for (let i = 0; i < maxBarbs; i++) {
+    const t = i / (maxBarbs - 1);
+    
+    const y0 = t * shaftLength;
+    const x0 = 0;
+
+    const y = bt.getPoint(leftHalf, t + 0.1)[1]
+
+    const angle = (150 + t * -20 + bt.randInRange(-4, 4)) / 180 * Math.PI;
+    let r = y * 0.45;
+
+    const line = [
+      bt.nurbs([
+        [x0, y0],
+        [
+          -(x0 + Math.cos(angle) * r / 180 - y / 5),
+          (y0 + Math.sin(angle) * r / 2)
+        ],
+        [
+          -(x0 + Math.cos(angle) * 0.5 * r),
+          (y0 + Math.sin(angle) * 0.5 * r)
+        ]
+      ])
+    ];
   
+    if (r < 0.01) continue;
+
+    bt.join(barbs, line);    
+  }
+  return barbs;
 }
 
-function makeVeins() {
-  const veins = [];
 
-  let littleLinesMax = 61
-  for (let i = 4; i < littleLinesMax - 5; i++) {
-    const t = i / (littleLinesMax - 1); // this line to get t values 0 to 1 while iterating is very common
-    const x0 = 0;
-    const y0 = t * leafLength;
+}
 
-
-drawLines(fullFeather)
-
-
-// var fullFeather = [];
-
-// for (let i = 1; i < maxPatterns; i++) {
-//   let scaledFeather = bt.scale(partFeather, [i, i], [0, 0]);
-//   fullFeather.push(scaledFeather);
-// }
-
-// for (let i = 0; i < fullFeather.length; i++) {
-//   drawLines(fullFeather[i]);
-// }
-
-// console.log(fullFeather)
+drawLines(finalLines);
