@@ -83,7 +83,7 @@ function addBarbs() {
   const barbs = [];
 
   let maxBarbs = 90;
-  for (let i = 40; i < maxBarbs; i++) {
+  for (let i = 22; i < maxBarbs; i++) {
     const t = i / (maxBarbs - 1);
 
     const y0 = t * shaftLength;
@@ -120,7 +120,7 @@ const featherCount = bt.randInRange(8, 15);
 const feathers = [];
 for (let i = 0; i < featherCount; i++) {
   const oneFeather = bt.copy(fullFeather);
-  bt.rotate(oneFeather, i * (180 / featherCount - 1), [0, 0]);
+  bt.rotate(oneFeather, i * (180 / featherCount + 1), [0, 0]);
   bt.join(finalLines, oneFeather);
 }
 
@@ -150,6 +150,7 @@ const peacockBody = new bt.Turtle()
   .jump([(width / 2 - 2), height / 2 - 2])
   .goTo([width / 2 - 1, height / 2 + 5])
 
+
 const peacockLegs = new bt.Turtle()
   .jump([width / 2 - 1, height / 2 - 3.73])
   .goTo([width / 2 - 1, height / 2 - 6])
@@ -159,7 +160,18 @@ const peacockLegs = new bt.Turtle()
   .goTo([width / 2 + 2, height / 2 - 6])
 
 
+const peacockFace = new bt.Turtle()
+  .jump([width / 2 - 0.5, height / 2 + 5])
+  .arc(360, 0.25)
+  .jump([width / 2 + 0.5, height / 2 + 5])
+  .arc(360, 0.25)
+  .jump([width / 2 - 0.5, height / 2 + 4.5])
+  .goTo([width / 2, height / 2 + 2])
+  .goTo([width / 2 + 0.5, height / 2 + 4.5])
+
+
 //draw the polylines
 drawLines(finalLines);
 drawLines(peacockBody.path, { fill: "white" });
 drawLines(peacockLegs.path, { width: 2 });
+drawLines(peacockFace.path, { fill: "black" });
