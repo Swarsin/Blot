@@ -1,6 +1,7 @@
 /*
 @title: 2D Peacock
 @author: Swaraj Singh
+@snapshot: image1.png
 */
 
 const width = 75;
