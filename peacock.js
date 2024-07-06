@@ -3,8 +3,8 @@
 // check out this guide to learn how to program in blot
 // https://blot.hackclub.com/editor?guide=start
 
-const width = 125;
-const height = 125;
+const width = 75;
+const height = 75;
 
 setDocDimensions(width, height);
 
@@ -120,7 +120,7 @@ const featherCount = bt.randInRange(8, 15);
 const feathers = [];
 for (let i = 0; i < featherCount; i++) {
   const oneFeather = bt.copy(fullFeather);
-  bt.rotate(oneFeather, i * (180 / featherCount), [0, 0]);
+  bt.rotate(oneFeather, i * (180 / featherCount - 1), [0, 0]);
   bt.join(finalLines, oneFeather);
 }
 
@@ -139,11 +139,27 @@ bt.rotate(finalLines, 270, [width / 2, height / 2]);
 
 
 //making the actual peacock now :)
-const peacock = new bt.Turtle()
-  .jump([(width / 2) - 20], height / 2)
-  .arc(-180, 40)
+const peacockBody = new bt.Turtle()
+  .jump([(width / 2), height / 2 + 4])
+  .arc(360, 1)
+  .jump([(width / 2) - 1, height / 2 + 5])
+  .goTo([(width / 2 - 2), height / 2 - 2])
+  .left(270)
+  .arc(180, 2)
+  .goTo([width / 2 + 1, height / 2 + 5])
+  .jump([(width / 2 - 2), height / 2 - 2])
+  .goTo([width / 2 - 1, height / 2 + 5])
+
+const peacockLegs = new bt.Turtle()
+  .jump([width / 2 - 1, height / 2 - 3.73])
+  .goTo([width / 2 - 1, height / 2 - 6])
+  .goTo([width / 2 - 2, height / 2 - 6])
+  .jump([width / 2 + 1, height / 2 - 3.73])
+  .goTo([width / 2 + 1, height / 2 - 6])
+  .goTo([width / 2 + 2, height / 2 - 6])
 
 
 //draw the polylines
 drawLines(finalLines);
-drawLines(peacock.lines())
+drawLines(peacockBody.path, { fill: "white" });
+drawLines(peacockLegs.path, { width: 2 });
