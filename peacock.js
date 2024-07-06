@@ -1,7 +1,7 @@
-// welcome to blot!
-
-// check out this guide to learn how to program in blot
-// https://blot.hackclub.com/editor?guide=start
+/*
+@title: 2D Peacock
+@author: Swaraj Singh
+*/
 
 const width = 75;
 const height = 75;
